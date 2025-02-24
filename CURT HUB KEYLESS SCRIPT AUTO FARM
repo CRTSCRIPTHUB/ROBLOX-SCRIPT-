@@ -39,7 +39,7 @@ local Tab = Window:MakeTab({
 })
 
 Tab:AddToggle({
-	Name = "AUTO FARM",
+	Name = "BLOXFRUIT FARM",
 	Default = false,
 	Callback = function(Value)
 		print(Value)
@@ -80,6 +80,58 @@ Tab:AddToggle({
 
 Tab:AddToggle({
 	Name = "MASTERY GUN",
+	Default = false,
+	Callback = function(Value)
+		print(Value)
+	end    
+})
+
+local Tab = Window:MakeTab({
+	Name = "MM2 FARM",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+Tab:AddToggle({
+	Name = "FARM PEOPLE",
+	Default = false,
+	Callback = function(Value)
+		print(Value)
+	end    
+})
+
+Tab:AddToggle({
+	Name = "FARM COIN",
+	Default = false,
+	Callback = function(Value)
+		print(Value)
+	end    
+})
+
+local Tab = Window:MakeTab({
+	Name = "PS99 FARM",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+Tab:AddToggle({
+	Name = "FARM COIN",
+	Default = false,
+	Callback = function(Value)
+		print(Value)
+	end    
+})
+
+Tab:AddToggle({
+	Name = "FREEZE TRADE",
+	Default = false,
+	Callback = function(Value)
+		print(Value)
+	end    
+})
+
+Tab:AddToggle({
+	Name = "PET DUPPER",
 	Default = false,
 	Callback = function(Value)
 		print(Value)
