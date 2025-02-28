@@ -1,0 +1,31 @@
+repeat wait() until game:IsLoaded()
+local a = game["Pl".."ayers"].LocalPlayer
+local b = a.Character or a.CharacterAdded:Wait()
+local c = b:WaitForChild("HumanoidRootPart")
+
+local d = true -- Auto-farm toggle
+local e = 1 -- Farming delay
+
+local function f(g)
+    if g and c then
+        firetouchinterest(c, g, 0)
+        wait(0.2)
+        firetouchinterest(c, g, 1)
+    end
+end
+
+local function h()
+    local i = workspace:FindFirstChild("FarmingZone")
+    if i then
+        c.CFrame = i.CFrame + Vector3.new(0, 5, 0)
+    end
+end
+
+while d do
+    pcall(function()
+        h()
+        wait(0.5)
+        f(workspace:FindFirstChild("FarmingZone"))
+        wait(e)
+    end)
+end
