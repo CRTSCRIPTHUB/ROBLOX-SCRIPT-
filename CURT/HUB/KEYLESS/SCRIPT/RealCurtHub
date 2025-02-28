@@ -1,0 +1,74 @@
+local FarmingArea = workspace:FindFirstChild("FarmingZone") -- Farming area part
+local player = game.Players.LocalPlayer
+local FarmingCooldown = false
+local BaseEarnings = 10
+
+-- UI Elements (Ensure UI exists in PlayerGui)
+local farmUI = player:WaitForChild("PlayerGui"):FindFirstChild("CURT HUB")
+local progressBar = farmUI:FindFirstChild("ProgressBar")
+local notificationText = farmUI:FindFirstChild("NotificationText")
+
+if not farmUI or not progressBar or not notificationText then
+    warn("UI elements not found! Check UI names.")
+    return
+end
+
+-- Function to update progress bar
+local function updateProgressBar(time)
+    local gradient = progressBar:FindFirstChild("UIGradient")
+    if not gradient then return end
+    for i = 0, 1, 0.01 do
+        gradient.Offset = Vector2.new(i, 0) -- Corrected direction
+        task.wait(time / 100) -- Smooth animation
+    end
+end
+
+-- Function to get player's farming boost
+local function getFarmingBoost()
+    local leaderstats = player:FindFirstChild("leaderstats")
+    if leaderstats and leaderstats:FindFirstChild("FarmingBoost") then
+        return leaderstats.FarmingBoost.Value
+    end
+    return 1 -- Default multiplier
+end
+
+-- Function to farm resources
+local function farmResources()
+    if FarmingCooldown then return end
+    FarmingCooldown = true
+
+    local boost = getFarmingBoost()
+    local earnings = BaseEarnings * boost
+
+    -- UI Notification
+    notificationText.Text = "Farming... Earned $" .. earnings
+    notificationText.Visible = true
+    progressBar.Visible = true
+
+    -- Progress Bar Animation
+    updateProgressBar(3)
+
+    -- Send request to server for earning money
+    local farmEvent = game.ReplicatedStorage:FindFirstChild("FarmEvent")
+    if farmEvent then
+        farmEvent:FireServer(earnings)
+    else
+        warn("FarmEvent not found in ReplicatedStorage!")
+    end
+
+    -- Cooldown
+    task.wait(3) -- 3-second cooldown
+    notificationText.Visible = false
+    progressBar.Visible = false
+    FarmingCooldown = false
+end
+
+-- Check if player is in the farming area
+game:GetService("RunService").Heartbeat:Connect(function()
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") and FarmingArea then
+        local distance = (player.Character.HumanoidRootPart.Position - FarmingArea.Position).Magnitude
+        if distance < 10 then
+            farmResources()
+        end
+    end
+end)
